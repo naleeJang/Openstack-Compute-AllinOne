@@ -392,9 +392,9 @@ vncserver_listen=0.0.0.0
 echo "DB sync"
 nova-manage db sync
 
-#----------------------
-# Create Nova Network
-#----------------------
+#-------------------------
+# 5.1 Create Nova Network
+#-------------------------
 # Create a small network
 nova-manage network create "private" $FIXED_RANGE 1 256
 # Create some floating ips
@@ -419,7 +419,7 @@ service nova-scheduler restart
 service nova-novncproxy restart
 
 #-----------------
-# 5. Cinder
+# 6. Cinder
 #-----------------
 
 echo "=============="
