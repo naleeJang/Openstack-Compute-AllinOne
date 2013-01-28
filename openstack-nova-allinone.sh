@@ -275,9 +275,20 @@ glance image-list
 echo "===================================="
 echo " Install KVM package for Hypervisor "
 echo "===================================="
-apt-get install -y kvm libvirt-bin pm-utils ubuntu-vm-builder bridge-utils
+apt-get install -y libvirt-bin pm-utils bridge-utils selinux-utils
 
 service libvirt-bin restart
+
+LIBVIRT_TYPE=kvm
+modprobe kvm || true
+if [ ! -e /dev/kvm ]; then
+    echo "WARNING: Switching to QEMU"
+    LIBVIRT_TYPE=qemu
+    if which selinuxenabled 2>&1 > /dev/null && selinuxenabled; then
+        # https://bugzilla.redhat.com/show_bug.cgi?id=753589
+        sudo setsebool virt_use_execmem on
+    fi
+fi
 
 #-----------------
 # 5. Nova
@@ -332,7 +343,7 @@ sql_connection=mysql://nova:$PASSWORD@$HOST_IP/nova
 # COMPUTE
 multi_host=True
 send_arp_for_ha=True
-libvirt_type=kvm
+libvirt_type=$LIBVIRT_TYPE
 connection_type=libvirt
 instances_path=/var/lib/nova/instances
 instance_name_template=instance-%08x
@@ -381,9 +392,9 @@ vncserver_listen=0.0.0.0
 echo "DB sync"
 nova-manage db sync
 
-#--------------------------
-# 5.1 Create Nova Network
-#--------------------------
+#----------------------
+# Create Nova Network
+#----------------------
 # Create a small network
 nova-manage network create "private" $FIXED_RANGE 1 256
 # Create some floating ips
@@ -408,7 +419,7 @@ service nova-scheduler restart
 service nova-novncproxy restart
 
 #-----------------
-# 6. Cinder
+# 5. Cinder
 #-----------------
 
 echo "=============="
@@ -474,7 +485,7 @@ service cinder-volume restart
 # 7. Horizon
 #-----------------
 
-echo "================="
-echo " Install Horizon "
-echo "================="
+echo "================"
+echo "Install Horizon"
+echo "================"
 apt-get install -y apache2 libapache2-mod-wsgi openstack-dashboard memcached python-memcache
