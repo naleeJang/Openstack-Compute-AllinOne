@@ -1,0 +1,6 @@
+HOST_IP=10.0.0.13
+USER=root
+PASSWORD=superscrete
+TOKEN=mnlopenstacktoken
+FIXED_RANGE=10.4.128.0/24
+FLOATING_RANGE=172.24.4.224/28
