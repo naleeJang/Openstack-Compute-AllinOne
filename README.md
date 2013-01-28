@@ -1,7 +1,8 @@
 Openstack-Compute-AllinOne
 ==========================
 
-OpenStack for Nova-network All in One 
+This Shell Script is OpenStack for Nova-network All in One 
+
 - Date : 2013.01.28 
 - Creater : NaleeJang
  
