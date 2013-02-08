@@ -5,7 +5,10 @@ The Shell Script is OpenStack for Nova-network All in One
 
 - Date : 2013.01.28 
 - Creater : NaleeJang
- 
+- Version : OpenStack Flosom
+- OS : Ubnuntu 12.04
+
+
 1. Common Services
    - Operating System
    - Install ubuntu-cloud-keyring
