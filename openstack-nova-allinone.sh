@@ -4,7 +4,6 @@
 # OpenStack for Nova-network All in One 
 # Date : 2013.01.28 
 # Creater : NaleeJang
-# Company : MNL Solution R&D Center
 ##########################################
 # 
 # 1. Common Services
